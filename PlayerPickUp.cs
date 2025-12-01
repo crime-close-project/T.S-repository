@@ -1,7 +1,12 @@
+using System;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerPickUp : MonoBehaviour
 {
+
+    HighLightedVisability highlightedVisability;
+    HighLightedVisability lastHighlighted; 
     public GameObject player;
     public Transform holdPos;
     private bool canDrop = true;
@@ -19,10 +24,14 @@ public class PlayerPickUp : MonoBehaviour
         {
             Debug.LogError("holdPos is not there");
         }
+
+        
     }
 
     void Update()
     {
+
+        HandleHighlight(); 
         // Pick up
         if (Input.GetMouseButton(0))
         {
@@ -39,11 +48,17 @@ public class PlayerPickUp : MonoBehaviour
         {
             DropObject();
         }
+
+        // highlight object 
+       
+
     }
 
+    
     private void TryPickUp()
     {
         RaycastHit hit;
+
 
         if (Physics.Raycast(transform.position,
                             transform.TransformDirection(Vector3.forward),
@@ -91,5 +106,29 @@ public class PlayerPickUp : MonoBehaviour
         heldObj = null;
         heldRigidbody = null;
         originalLayer = -1;
+    }
+
+    private void HandleHighlight()
+    {
+        RaycastHit hit;
+
+        // Turn off highlight of the last highlighted object
+        if (lastHighlighted != null)
+        {
+            lastHighlighted.isHighlighted = false;
+            lastHighlighted = null;
+        }
+
+        
+        if (Physics.Raycast(transform.position, transform.forward, out hit, PickUpRange))
+        {
+            highlightedVisability = hit.transform.GetComponent<HighLightedVisability>();
+
+            if (highlightedVisability != null)
+            {
+                highlightedVisability.isHighlighted = true;
+                lastHighlighted = highlightedVisability;
+            }
+        }
     }
 }
