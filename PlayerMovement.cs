@@ -1,12 +1,12 @@
 using System.Collections; 
 using System.Collections.Generic;
 using UnityEngine;
-// this is player movement orientation is a empty game object that keeps track of direction 
+// this is player movement
 public class PlayerMovement : MonoBehaviour
 {
     public float playerSpeed = 5f;
-    public bool smoothStop = false;            // toggle for smooth stopping
-    public float stopLerpSpeed = 10f;          // only used when smoothStop == true
+    public bool smoothStop = false;            
+    public float stopLerpSpeed = 10f;       
 
     public Transform orientation;
 
@@ -101,3 +101,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 }
+
